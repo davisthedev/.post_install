@@ -1,1 +1,1 @@
-sudo apt install flameshot
+sudo apt install -y flameshot
