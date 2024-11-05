@@ -27,7 +27,7 @@ for DIR in "${DIRECTORIES[@]}"; do
 			echo "Completed $(basename "$script") successfully."
 			echo "$(basename "$script")" >> "$STATUS_FILE"
 		fi
-	
+
 	done
 
 done
