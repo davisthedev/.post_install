@@ -18,7 +18,7 @@ fi
 # Extract the filename from the URL
 FILENAME=$(basename "$LATEST_URL")
 
-wget -q --show-progress -O "$FILENAME" "$LATEST_URL"
+wget -q -O "$FILENAME" "$LATEST_URL"
 
 ail-cli integrate "$FILENAME"
 
