@@ -133,21 +133,21 @@ mise use --global java@latest
 bash -c "$(curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs)" -- -y
 
 # Neovim
-cd /tmp
-wget -O nvim.tar.gz "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
-tar -xf nvim.tar.gz
-sudo install nvim-linux64/bin/nvim /usr/local/bin/nvim
-sudo cp -R nvim-linux64/lib /usr/local/
-sudo cp -R nvim-linux64/share /usr/local/
-rm -rf nvim-linux64 nvim.tar.gz
-cd -
+# cd /tmp
+# wget -O nvim.tar.gz "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+# tar -xf nvim.tar.gz
+# sudo install nvim-linux64/bin/nvim /usr/local/bin/nvim
+# sudo cp -R nvim-linux64/lib /usr/local/
+# sudo cp -R nvim-linux64/share /usr/local/
+# rm -rf nvim-linux64 nvim.tar.gz
+# cd -
 
 # Spotify
 # Stream music using https://spotify.com
-curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/spotify.gpg] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-sudo apt update -y
-sudo apt install -y spotify-client
+# curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+# echo "deb [signed-by=/etc/apt/trusted.gpg.d/spotify.gpg] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+# sudo apt update -y
+# sudo apt install -y spotify-client
 
 # Typora
 wget -qO - https://typora.io/linux/public-key.asc | sudo tee /etc/apt/trusted.gpg.d/typora.asc
