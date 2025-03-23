@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Base
 sudo apt update
@@ -9,7 +10,7 @@ sudo apt autoclean
 sudo fwupdmgr get-devices
 sudo fwupdmgr get-updates
 sudo fwupdmgr update
-sudo apt-add-repository-universe
+sudo apt-add-repository universe
 sudo apt -y install curl git unzip fzf ripgrep bat eza btop fd-find stow 
 sudo apt -y install build-essential pkg-config autoconf clang ninja-build gettext cmake libfuse2
 sudo apt -y install alacritty flameshot vlc vim
@@ -21,6 +22,7 @@ curl -sS https://starship.rs/install.sh | sh -s -- -y
 sudo apt install -y flatpak
 sudo apt install -y gnome-software-plugin-flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.bitwarden.desktop md.obsidian.Obsidian
 
 # Docker
 # Add the official Docker repo
@@ -54,6 +56,48 @@ cp JetBrainsMono/*.ttf ~/.local/share/fonts
 rm -rf JetBrainsMono.zip JetBrainsMono
 
 fc-cache
+cd -
+
+# AppimageLauncher
+cd /tmp || exit 1
+
+# Fetch the AppImageLauncher deb URL and save it in a temporary file.
+wget -qO- "https://api.github.com/repos/TheAssassin/AppImageLauncher/releases/tags/continuous" \
+  | grep -oP '"browser_download_url":\s*"\K[^"]*amd64\.deb' > /tmp/appimagelauncher_url
+
+# If no URL was found, report an error and exit.
+if [ ! -s /tmp/appimagelauncher_url ]; then
+  echo "Error: Could not find a download URL for release tag continuous."
+  exit 1
+fi
+
+# Use the URL stored in the file to download, install, and then remove the package.
+wget -q -O "$(basename "$(cat /tmp/appimagelauncher_url)")" "$(cat /tmp/appimagelauncher_url)"
+sudo dpkg -i "$(basename "$(cat /tmp/appimagelauncher_url)")"
+sudo apt-get install -f -y
+rm "$(basename "$(cat /tmp/appimagelauncher_url)")" /tmp/appimagelauncher_url
+
+cd -
+
+# Arduino
+cd /tmp || exit 1
+
+# Fetch the download URL for the latest Arduino IDE Linux 64-bit AppImage
+wget -qO- "https://api.github.com/repos/arduino/arduino-ide/releases/latest" \
+  | grep -oP '"browser_download_url":\s*"\K[^"]*Linux_64bit\.AppImage' > /tmp/arduino_ide_url
+
+# Exit if the URL was not found
+if [ ! -s /tmp/arduino_ide_url ]; then
+  echo "Error: Could not find a download URL for the Arduino IDE AppImage."
+  exit 1
+fi
+
+# Download the AppImage using its basename and then integrate it with ail-cli
+wget -q -O "$(basename "$(cat /tmp/arduino_ide_url)")" "$(cat /tmp/arduino_ide_url)"
+ail-cli integrate "$(basename "$(cat /tmp/arduino_ide_url)")"
+
+rm /tmp/arduino_ide_url
+
 cd -
 
 # LazyDocker
@@ -110,3 +154,9 @@ wget -qO - https://typora.io/linux/public-key.asc | sudo tee /etc/apt/trusted.gp
 sudo add-apt-repository -y 'deb https://typora.io/linux ./'
 sudo apt update -y
 sudo apt install -y typora
+
+# zsh
+sudo apt -y install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
