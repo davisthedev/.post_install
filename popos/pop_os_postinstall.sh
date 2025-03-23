@@ -2,14 +2,14 @@
 set -e
 
 # Base
-sudo apt update
-sudo apt -y upgrade
-sudo apt -y dist-upgrade
-sudo apt -y autoremove
-sudo apt autoclean
-sudo fwupdmgr get-devices
-sudo fwupdmgr get-updates
-sudo fwupdmgr update
+# sudo apt update
+# sudo apt -y upgrade
+# sudo apt -y dist-upgrade
+# sudo apt -y autoremove
+# sudo apt autoclean
+# sudo fwupdmgr get-devices
+# sudo fwupdmgr get-updates
+# sudo fwupdmgr update
 sudo apt-add-repository universe
 sudo apt -y install curl git unzip fzf ripgrep bat eza btop fd-find stow 
 sudo apt -y install build-essential pkg-config autoconf clang ninja-build gettext cmake libfuse2
